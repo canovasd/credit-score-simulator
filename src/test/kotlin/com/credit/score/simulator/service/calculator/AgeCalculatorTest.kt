@@ -1,11 +1,11 @@
-package com.credit.score.simulator.service
+package com.credit.score.simulator.service.calculator
 
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
-class AgeCalculatorImplTest {
+class AgeCalculatorTest {
 
     @Test
     fun calculateOneYear() {
