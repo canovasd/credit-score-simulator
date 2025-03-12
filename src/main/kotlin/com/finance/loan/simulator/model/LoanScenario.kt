@@ -1,16 +1,19 @@
 package com.finance.loan.simulator.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.format.annotation.DateTimeFormat
 import java.math.BigDecimal
 import java.time.LocalDate
+import com.finance.loan.simulator.model.Currency.BRL
 
 @Schema(
     description = "Parâmetros para simulação de empréstimo",
     example = """{
         "loanValue": 10000.00,
         "birthDate": "2000-01-01",
-        "paymentTermInMonths": 60
+        "loanDurationMonths": 60,
+        "email": "marciocanovas@gmail.com"
     }"""
 )
 data class LoanScenario(
@@ -21,5 +24,9 @@ data class LoanScenario(
     val birthDate: LocalDate,
     @Schema(example = "60", description = "Prazo em meses para pagamento")
     val loanDurationMonths: Int,
-    val email: String? = null
+    val email: String? = null,
+    @field:JsonProperty("inputCurrency")
+    val inputCurrency: Currency = BRL,
+    @field:JsonProperty("outputCurrency")
+    val outputCurrency: Currency = BRL
 )

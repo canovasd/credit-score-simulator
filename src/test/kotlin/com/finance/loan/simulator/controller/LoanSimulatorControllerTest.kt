@@ -42,6 +42,7 @@ class LoanSimulatorControllerTest {
             .jsonPath("$.loanSimulation.yearlyRate").isEqualTo(0.05)
             .jsonPath("$.loanSimulation.originalValue").isEqualTo(10000.00)
             .jsonPath("$.loanSimulation.loanDurationMonths").isEqualTo(60)
+            .jsonPath("$.loanSimulation.currency").isEqualTo("BRL")
     }
 
     @Test
@@ -67,7 +68,7 @@ class LoanSimulatorControllerTest {
             .jsonPath("$.loanSimulation.yearlyRate").isEqualTo(0.03)
             .jsonPath("$.loanSimulation.originalValue").isEqualTo(10000.00)
             .jsonPath("$.loanSimulation.loanDurationMonths").isEqualTo(60)
-
+            .jsonPath("$.loanSimulation.currency").isEqualTo("BRL")
     }
 
     @Test
@@ -93,6 +94,7 @@ class LoanSimulatorControllerTest {
             .jsonPath("$.loanSimulation.yearlyRate").isEqualTo(0.02)
             .jsonPath("$.loanSimulation.originalValue").isEqualTo(10000.00)
             .jsonPath("$.loanSimulation.loanDurationMonths").isEqualTo(60)
+            .jsonPath("$.loanSimulation.currency").isEqualTo("BRL")
     }
 
     @Test
@@ -118,6 +120,7 @@ class LoanSimulatorControllerTest {
             .jsonPath("$.loanSimulation.yearlyRate").isEqualTo(0.04)
             .jsonPath("$.loanSimulation.originalValue").isEqualTo(10000.00)
             .jsonPath("$.loanSimulation.loanDurationMonths").isEqualTo(60)
+            .jsonPath("$.loanSimulation.currency").isEqualTo("BRL")
     }
 
     @Test
@@ -185,5 +188,33 @@ class LoanSimulatorControllerTest {
             .jsonPath("$.errorMessage").value<String> { errorMsg ->
                 assertThat(errorMsg).isEqualTo("Informe um valor de empréstimo maior ou igual 1")
             }
+    }
+
+    @Test
+    fun currencyExchange() {
+        val requestPayload = """
+            {
+              "loanValue": 10000,
+              "birthDate": "2005-01-19",
+              "loanDurationMonths": 60,
+              "inputCurrency": "BRL",
+              "outputCurrency": "USD"
+            }
+        """.trimIndent()
+
+        webTestClient.post()
+            .uri("/api/loans/simulate")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(requestPayload)
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.loanSimulation.monthlyPayment").isEqualTo(34.31)
+            .jsonPath("$.loanSimulation.finalValue").isEqualTo(2058.65)
+            .jsonPath("$.loanSimulation.totalInterest").isEqualTo(240.47)
+            .jsonPath("$.loanSimulation.yearlyRate").isEqualTo(0.01)
+            .jsonPath("$.loanSimulation.originalValue").isEqualTo(1818)
+            .jsonPath("$.loanSimulation.loanDurationMonths").isEqualTo(60)
+            .jsonPath("$.loanSimulation.currency").isEqualTo("USD")
     }
 }

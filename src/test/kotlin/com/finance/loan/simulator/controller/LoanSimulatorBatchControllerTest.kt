@@ -48,17 +48,17 @@ class LoanSimulatorBatchControllerTest {
         assertThat(result.responseBody?.decodeToString()).isEqualTo(
             "[" +
                     "{" +
-                    "\"loanSimulation\":{" +
-                    "\"monthlyPayment\":188.71," +
+                    "\"loanSimulation\":" +
+                    "{\"monthlyPayment\":188.71," +
                     "\"finalValue\":11322.60," +
                     "\"totalInterest\":1322.60," +
                     "\"yearlyRate\":0.05," +
                     "\"originalValue\":10000," +
-                    "\"loanDurationMonths" +
-                    "\":60}},{" +
-                    "\"errorMessage\":" +
-                    "\"Informe um valor de empréstimo maior ou igual 1" +
-                    "\"}" +
+                    "\"loanDurationMonths\":60," +
+                    "\"currency\":\"BRL\"" +
+                    "}},{" +
+                    "\"errorMessage\":\"Informe um valor de empréstimo maior ou igual 1\"" +
+                    "}" +
                     "]"
         )
     }

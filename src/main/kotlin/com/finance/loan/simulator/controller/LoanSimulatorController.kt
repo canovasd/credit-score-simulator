@@ -22,8 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.concurrent.Executors
 import java.util.concurrent.Semaphore
-
-const val SEMAPHORE_PERMITS = 100
+import javax.validation.Valid
 
 /**
  * Onde são registrados os endpoints de simulação de empréstimo
@@ -34,8 +33,6 @@ const val SEMAPHORE_PERMITS = 100
 class LoanSimulatorController(
     private val loanSimulatorService: LoanSimulatorService,
 ) {
-
-    private val semaphore = Semaphore(SEMAPHORE_PERMITS)
 
     @Operation(
         summary = "Simula um empréstimo",
@@ -49,7 +46,8 @@ class LoanSimulatorController(
                         {
                             "loanValue": 10000.00,
                             "birthDate": "2000-01-01",
-                            "paymentTermInMonths": 60
+                            "loanDurationMonths": 60,
+                            "email": "marciocanovas@gmail.com"
                         }
                     """
                 )]
@@ -133,12 +131,14 @@ class LoanSimulatorController(
                             {
                                 "loanValue": 10000,
                                 "birthDate": "2000-01-01",
-                                "paymentTermInMonths": 60
+                                "loanDurationMonths": 60,
+                                "email": "marciocanovas@gmail.com"
                             },
                             {
                                 "loanValue": 20000,
                                 "birthDate": "1995-05-15",
-                                "paymentTermInMonths": 120
+                                "loanDurationMonths": 120,
+                                "email": "marciocanovas@gmail.com"
                             }
                         ]
                     """
@@ -175,7 +175,7 @@ class LoanSimulatorController(
     )
     @PostMapping("/simulate-batch")
     suspend fun simulateLoanBatch(
-        @RequestBody requests: List<com.finance.loan.simulator.model.LoanScenario>
+        @RequestBody @Valid requests: List<LoanScenario>
     ): ResponseEntity<List<LoanSimulationResult>> = supervisorScope {
         val cpuDispatcher =
             Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()).asCoroutineDispatcher()

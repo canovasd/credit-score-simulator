@@ -42,6 +42,7 @@ data class LoanSimulation(
     val yearlyRate: BigDecimal,
     val originalValue: BigDecimal,
     val loanDurationMonths: Int,
+    val currency: Currency? = Currency.BRL
 )
 
 data class SimulationToSend(

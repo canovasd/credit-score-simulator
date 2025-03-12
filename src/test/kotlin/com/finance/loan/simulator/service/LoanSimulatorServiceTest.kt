@@ -1,8 +1,6 @@
 package com.finance.loan.simulator.service
 
-import com.finance.loan.simulator.actor.MonthlyPaymentCalculator
-import com.finance.loan.simulator.actor.InterestRateCalculator
-import com.finance.loan.simulator.actor.ResultNotifier
+import com.finance.loan.simulator.actor.*
 import com.finance.loan.simulator.model.LoanSimulationResult
 import com.finance.loan.simulator.model.InterestRate
 import com.nhaarman.mockitokotlin2.*
@@ -18,6 +16,15 @@ class LoanSimulatorServiceTest {
     private val installmentRateCalculator = mock<MonthlyPaymentCalculator>()
     private val paramValidator = mock<com.finance.loan.simulator.validator.LoanSimulationParameterValidator>()
     private val notifier = mock<ResultNotifier>()
+    private val currencyConverter = mock<CurrencyConverter>()
+
+    private val service = LoanSimulatorService(
+        interestRateCalculator,
+        installmentRateCalculator,
+        paramValidator,
+        notifier,
+        currencyConverter
+    )
 
     @Test
     fun successResult() {
@@ -31,8 +38,6 @@ class LoanSimulatorServiceTest {
                 any()
             )
         }).thenReturn(BigDecimal("58750.26"))
-
-        val service = LoanSimulatorService(interestRateCalculator, installmentRateCalculator, paramValidator, notifier)
 
         val result = runBlocking {
             service.simulateLoan(
@@ -69,8 +74,6 @@ class LoanSimulatorServiceTest {
             )
         }).thenReturn(BigDecimal("58750.26"))
 
-        val service = LoanSimulatorService(interestRateCalculator, installmentRateCalculator, paramValidator, notifier)
-
         val result = runBlocking {
             service.simulateLoan(
                 com.finance.loan.simulator.model.LoanScenario(
@@ -95,8 +98,6 @@ class LoanSimulatorServiceTest {
                 errorMsg
             )
         )
-
-        val service = LoanSimulatorService(interestRateCalculator, installmentRateCalculator, paramValidator, notifier)
 
         val result = runBlocking {
             service.simulateLoan(
