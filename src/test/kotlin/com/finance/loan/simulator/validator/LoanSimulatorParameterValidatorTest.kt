@@ -13,7 +13,7 @@ import java.time.Clock
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import java.util.*
+import java.util.Locale
 
 class LoanSimulatorParameterValidatorTest {
 
@@ -51,7 +51,9 @@ class LoanSimulatorParameterValidatorTest {
         val msg = "Informe um valor de empréstimo maior ou igual 1"
         whenever(
             messageSource.getMessage(
-                "error.min.loan.value", null, Locale.getDefault()
+                "error.min.loan.value",
+                null,
+                Locale.getDefault()
             )
         ).thenReturn(msg)
 
@@ -76,7 +78,9 @@ class LoanSimulatorParameterValidatorTest {
         val msg = "Informe um valor de empréstimo maior ou igual 1"
         whenever(
             messageSource.getMessage(
-                "error.min.loan.value", null, Locale.getDefault()
+                "error.min.loan.value",
+                null,
+                Locale.getDefault()
             )
         ).thenReturn(msg)
 
@@ -101,7 +105,9 @@ class LoanSimulatorParameterValidatorTest {
         val msg = "Data de nascimento não pode ser futura"
         whenever(
             messageSource.getMessage(
-                "error.birthdate.future", null, Locale.getDefault()
+                "error.birthdate.future",
+                null,
+                Locale.getDefault()
             )
         ).thenReturn(msg)
         val target =
@@ -125,7 +131,9 @@ class LoanSimulatorParameterValidatorTest {
         val msg = "Informe um número positivo de meses"
         whenever(
             messageSource.getMessage(
-                "error.min.months.number", null, Locale.getDefault()
+                "error.min.months.number",
+                null,
+                Locale.getDefault()
             )
         ).thenReturn(msg)
 
@@ -150,7 +158,9 @@ class LoanSimulatorParameterValidatorTest {
         val msg = "Informe um número positivo de meses"
         whenever(
             messageSource.getMessage(
-                "error.min.months.number", null, Locale.getDefault()
+                "error.min.months.number",
+                null,
+                Locale.getDefault()
             )
         ).thenReturn(msg)
 

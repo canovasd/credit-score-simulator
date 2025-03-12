@@ -1,11 +1,11 @@
 package com.finance.loan.simulator.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.finance.loan.simulator.model.Currency.BRL
 import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.format.annotation.DateTimeFormat
 import java.math.BigDecimal
 import java.time.LocalDate
-import com.finance.loan.simulator.model.Currency.BRL
 
 @Schema(
     description = "Parâmetros para simulação de empréstimo",

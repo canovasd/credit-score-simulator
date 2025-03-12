@@ -1,6 +1,10 @@
 package com.finance.loan.simulator.service
 
-import com.finance.loan.simulator.actor.*
+import com.finance.loan.simulator.actor.CurrencyConverter
+import com.finance.loan.simulator.actor.InterestRateCalculator
+import com.finance.loan.simulator.actor.MonetaryConverter
+import com.finance.loan.simulator.actor.MonthlyPaymentCalculator
+import com.finance.loan.simulator.actor.ResultNotifier
 import com.finance.loan.simulator.model.LoanScenario
 import com.finance.loan.simulator.model.LoanSimulation
 import com.finance.loan.simulator.model.LoanSimulationResult

@@ -20,7 +20,7 @@ interface CurrencyConverter {
 @Component
 class CurrencyConverterImpl : CurrencyConverter {
     override fun convert(amount: BigDecimal, from: Currency?, to: Currency?): BigDecimal {
-        if(to == null || from == null) {
+        if (to == null || from == null) {
             return amount
         }
         val amountInBRL = amount * from.conversionRateToBRL

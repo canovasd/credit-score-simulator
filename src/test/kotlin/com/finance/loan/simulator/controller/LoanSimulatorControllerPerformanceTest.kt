@@ -32,11 +32,12 @@ class LoanSimulatorControllerPerformanceTest {
         val timeToExecute = Duration.between(startTime, endTime).seconds
 
         println("Time to execute: $timeToExecute")
-        assertThat(timeToExecute).isLessThan(com.finance.loan.simulator.controller.MAX_TIME_IN_SECONDS)
+        assertThat(timeToExecute).isLessThan(MAX_TIME_IN_SECONDS)
     }
 
     private fun baseCase() {
-        val requestPayload = """
+        val requestPayload =
+            """
                 {
                   "loanValue": 10000,
                   "birthDate": "2005-01-19",

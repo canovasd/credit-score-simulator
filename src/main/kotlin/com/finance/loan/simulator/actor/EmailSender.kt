@@ -12,7 +12,7 @@ interface EmailSender {
 @Component
 class EmailSenderImpl(
     val queueReader: QueueReader
-): EmailSender {
+) : EmailSender {
     override fun sendToQueue(email: String, result: LoanSimulationResult) {
     }
 
@@ -22,8 +22,10 @@ class EmailSenderImpl(
             while (true) {
                 val simulationToSend = queueReader.readFromQueue()
                 simulationToSend?.let {
-                    println("Simulando envio de mensagem para e-mail ${it.email} " +
-                            "com infos sobre o empréstimo ${it.loanSimulation}")
+                    println(
+                        "Simulando envio de mensagem para e-mail ${it.email} " +
+                            "com infos sobre o empréstimo ${it.loanSimulation}"
+                    )
                 }
             }
         }.start()

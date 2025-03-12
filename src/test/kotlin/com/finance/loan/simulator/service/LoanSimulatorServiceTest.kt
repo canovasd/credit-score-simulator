@@ -1,9 +1,17 @@
 package com.finance.loan.simulator.service
 
-import com.finance.loan.simulator.actor.*
-import com.finance.loan.simulator.model.LoanSimulationResult
+import com.finance.loan.simulator.actor.CurrencyConverter
+import com.finance.loan.simulator.actor.InterestRateCalculator
+import com.finance.loan.simulator.actor.MonthlyPaymentCalculator
+import com.finance.loan.simulator.actor.ResultNotifier
 import com.finance.loan.simulator.model.InterestRate
-import com.nhaarman.mockitokotlin2.*
+import com.finance.loan.simulator.model.LoanSimulationResult
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -31,13 +39,15 @@ class LoanSimulatorServiceTest {
         whenever(runBlocking { interestRateCalculator.calculateInterestRate(any()) }).thenReturn(
             InterestRate(yearlyRate = BigDecimal("0.03"), monthlyRate = BigDecimal("0025"))
         )
-        whenever(runBlocking {
-            installmentRateCalculator.calculateMonthlyPayment(
-                any(),
-                any(),
-                any()
-            )
-        }).thenReturn(BigDecimal("58750.26"))
+        whenever(
+            runBlocking {
+                installmentRateCalculator.calculateMonthlyPayment(
+                    any(),
+                    any(),
+                    any()
+                )
+            }
+        ).thenReturn(BigDecimal("58750.26"))
 
         val result = runBlocking {
             service.simulateLoan(
@@ -66,13 +76,15 @@ class LoanSimulatorServiceTest {
         whenever(runBlocking { interestRateCalculator.calculateInterestRate(any()) }).thenReturn(
             InterestRate(yearlyRate = BigDecimal("0.03"), monthlyRate = BigDecimal("0025"))
         )
-        whenever(runBlocking {
-            installmentRateCalculator.calculateMonthlyPayment(
-                any(),
-                any(),
-                any()
-            )
-        }).thenReturn(BigDecimal("58750.26"))
+        whenever(
+            runBlocking {
+                installmentRateCalculator.calculateMonthlyPayment(
+                    any(),
+                    any(),
+                    any()
+                )
+            }
+        ).thenReturn(BigDecimal("58750.26"))
 
         val result = runBlocking {
             service.simulateLoan(

@@ -20,7 +20,7 @@ class InterestInterestRateCalculatorTest {
             AgeRateBracket(25, BigDecimal("0.05")),
             AgeRateBracket(40, BigDecimal("0.03")),
             AgeRateBracket(60, BigDecimal("0.02")),
-            AgeRateBracket(2147483647, BigDecimal("0.04")),
+            AgeRateBracket(2147483647, BigDecimal("0.04"))
         )
     )
 

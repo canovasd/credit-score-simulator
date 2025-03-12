@@ -12,7 +12,7 @@ class MonetaryConverter(
     private val outputCurrency: Currency?
 ) {
     fun convert(value: BigDecimal): BigDecimal {
-        if(inputCurrency == outputCurrency) {
+        if (inputCurrency == outputCurrency) {
             return value
         }
         return currencyConverter.convert(value, inputCurrency, outputCurrency)

@@ -33,7 +33,7 @@ class InterestRateCalculatorImpl(
 
         return InterestRate(
             yearlyRate = yearlyRate,
-            monthlyRate = yearlyRate.divide(BigDecimal(MONTHS_IN_YEAR), CALC_SCALE, HALF_UP),
+            monthlyRate = yearlyRate.divide(BigDecimal(MONTHS_IN_YEAR), CALC_SCALE, HALF_UP)
         )
     }
 }
