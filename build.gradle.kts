@@ -5,7 +5,7 @@ plugins {
     kotlin("plugin.spring") version "1.8.0"
 }
 
-group = "com.credit.score.simulator"
+group = "com.finance.loan.simulator"
 version = "0.0.1-SNAPSHOT"
 
 repositories {
