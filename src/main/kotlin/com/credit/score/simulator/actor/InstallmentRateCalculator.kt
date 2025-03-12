@@ -1,4 +1,4 @@
-package com.credit.score.simulator.calculator
+package com.credit.score.simulator.actor
 
 import com.credit.score.simulator.service.MONETARY_SCALE
 import org.springframework.stereotype.Component
@@ -14,6 +14,9 @@ interface InstallmentRateCalculator {
     suspend fun calculateInstallmentRate(loanValue: BigDecimal, monthlyRate: BigDecimal, paymentTermInMonths: Int): BigDecimal
 }
 
+/**
+ * Calcula o valor de uma prestação, dado um valor de empréstimo, quantidade de meses de duração e uma taxa mensal
+ */
 @Component
 class InstallmentRateCalculatorImpl : InstallmentRateCalculator {
 

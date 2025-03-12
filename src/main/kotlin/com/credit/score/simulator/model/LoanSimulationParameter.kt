@@ -21,5 +21,6 @@ data class LoanSimulationParameter(
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     val birthDate: LocalDate,
     @Schema(example = "60", description = "Prazo em meses para pagamento")
-    val paymentTermInMonths: Int
+    val paymentTermInMonths: Int,
+    val email: String? = null
 )

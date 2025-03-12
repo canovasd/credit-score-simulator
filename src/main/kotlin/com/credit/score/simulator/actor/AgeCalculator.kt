@@ -1,10 +1,14 @@
-package com.credit.score.simulator.calculator
+package com.credit.score.simulator.actor
 
 import org.springframework.stereotype.Component
 import java.time.Clock
 import java.time.LocalDate
 import java.time.Period
 
+/**
+ * Classe responsável pelo cálculo de uma idade, dada uma data de nascimento
+ *
+ */
 interface AgeCalculator {
     suspend fun calculateAge(birthDate: LocalDate): Int
 }

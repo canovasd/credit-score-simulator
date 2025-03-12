@@ -14,7 +14,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
     classes = [CreditScoreSimulatorApp::class],
 )
 @AutoConfigureWebTestClient
-class LoanSimulationTest {
+class LoanSimulatorControllerTest {
 
     @Autowired
     private lateinit var webTestClient: WebTestClient
@@ -40,6 +40,8 @@ class LoanSimulationTest {
             .jsonPath("$.loanSimulation.finalValue").isEqualTo(11322.6)
             .jsonPath("$.loanSimulation.totalInterest").isEqualTo(1322.6)
             .jsonPath("$.loanSimulation.yearlyRate").isEqualTo(0.05)
+            .jsonPath("$.loanSimulation.originalValue").isEqualTo(10000.00)
+            .jsonPath("$.loanSimulation.paymentTermInMonths").isEqualTo(60)
     }
 
     @Test
@@ -63,6 +65,9 @@ class LoanSimulationTest {
             .jsonPath("$.loanSimulation.finalValue").isEqualTo(10781.4)
             .jsonPath("$.loanSimulation.totalInterest").isEqualTo(781.4)
             .jsonPath("$.loanSimulation.yearlyRate").isEqualTo(0.03)
+            .jsonPath("$.loanSimulation.originalValue").isEqualTo(10000.00)
+            .jsonPath("$.loanSimulation.paymentTermInMonths").isEqualTo(60)
+
     }
 
     @Test
@@ -86,6 +91,8 @@ class LoanSimulationTest {
             .jsonPath("$.loanSimulation.finalValue").isEqualTo(10516.8)
             .jsonPath("$.loanSimulation.totalInterest").isEqualTo(516.8)
             .jsonPath("$.loanSimulation.yearlyRate").isEqualTo(0.02)
+            .jsonPath("$.loanSimulation.originalValue").isEqualTo(10000.00)
+            .jsonPath("$.loanSimulation.paymentTermInMonths").isEqualTo(60)
     }
 
     @Test
@@ -109,6 +116,8 @@ class LoanSimulationTest {
             .jsonPath("$.loanSimulation.finalValue").isEqualTo(11050.2)
             .jsonPath("$.loanSimulation.totalInterest").isEqualTo(1050.2)
             .jsonPath("$.loanSimulation.yearlyRate").isEqualTo(0.04)
+            .jsonPath("$.loanSimulation.originalValue").isEqualTo(10000.00)
+            .jsonPath("$.loanSimulation.paymentTermInMonths").isEqualTo(60)
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.credit.score.simulator.calculator
+package com.credit.score.simulator.actor
 
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
@@ -38,7 +38,6 @@ class AgeCalculatorTest {
 
     @Test
     fun calculate40Years() {
-        val today = LocalDate.of(2025, 3, 11)
         val birthDate = LocalDate.of(1985, 1, 19)
         val target = AgeCalculatorImpl(fixedClock)
 

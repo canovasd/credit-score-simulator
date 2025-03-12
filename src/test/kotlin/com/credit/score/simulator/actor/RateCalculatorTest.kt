@@ -1,4 +1,4 @@
-package com.credit.score.simulator.calculator
+package com.credit.score.simulator.actor
 
 import com.credit.score.simulator.config.RateConfig
 import com.credit.score.simulator.config.RateConfig.AgeRateBracket
@@ -13,6 +13,8 @@ import java.time.LocalDate
 
 class RateCalculatorTest {
 
+    private val ageCalculator = mock<AgeCalculator>()
+
     private val rateConfig = RateConfig(
         listOf(
             AgeRateBracket(25, BigDecimal("0.05")),
@@ -24,10 +26,7 @@ class RateCalculatorTest {
 
     @Test
     fun calculateRateTwentyYears() {
-        val ageCalculator = mock<AgeCalculator>()
         whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(20)
-
-        val a = BigDecimal("1")
 
         val target = RateCalculatorImpl(ageCalculator, rateConfig)
         val result = runBlocking { target.calculateYearlyRate(LocalDate.of(2004, 1, 1)) }
@@ -38,7 +37,6 @@ class RateCalculatorTest {
 
     @Test
     fun calculateRateTwentyFiveYears() {
-        val ageCalculator = mock<AgeCalculator>()
         whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(25)
 
         val target = RateCalculatorImpl(ageCalculator, rateConfig)
@@ -50,7 +48,6 @@ class RateCalculatorTest {
 
     @Test
     fun calculateRateTwentySixYears() {
-        val ageCalculator = mock<AgeCalculator>()
         whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(26)
 
         val target = RateCalculatorImpl(ageCalculator, rateConfig)
@@ -62,7 +59,6 @@ class RateCalculatorTest {
 
     @Test
     fun calculateRateFortyYears() {
-        val ageCalculator = mock<AgeCalculator>()
         whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(40)
 
         val target = RateCalculatorImpl(ageCalculator, rateConfig)
@@ -74,7 +70,6 @@ class RateCalculatorTest {
 
     @Test
     fun calculateRateFortyOneYears() {
-        val ageCalculator = mock<AgeCalculator>()
         whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(41)
 
         val target = RateCalculatorImpl(ageCalculator, rateConfig)
@@ -86,7 +81,6 @@ class RateCalculatorTest {
 
     @Test
     fun calculateRateSixtyYears() {
-        val ageCalculator = mock<AgeCalculator>()
         whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(60)
 
         val target = RateCalculatorImpl(ageCalculator, rateConfig)
@@ -98,7 +92,6 @@ class RateCalculatorTest {
 
     @Test
     fun calculateRateSixtyOneYears() {
-        val ageCalculator = mock<AgeCalculator>()
         whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(61)
 
         val target = RateCalculatorImpl(ageCalculator, rateConfig)

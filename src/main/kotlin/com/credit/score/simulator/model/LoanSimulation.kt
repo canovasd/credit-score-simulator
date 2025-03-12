@@ -39,5 +39,12 @@ data class LoanSimulation(
     val installmentRate: BigDecimal,
     val finalValue: BigDecimal,
     val totalInterest: BigDecimal,
-    val yearlyRate: BigDecimal
+    val yearlyRate: BigDecimal,
+    val originalValue: BigDecimal,
+    val paymentTermInMonths: Int,
+)
+
+data class SimulationToSend(
+    val loanSimulation: LoanSimulation,
+    val email: String
 )

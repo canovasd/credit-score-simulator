@@ -6,6 +6,7 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
 app:
   clock:
     zone-id: "America/Sao_Paulo"
@@ -19,6 +20,3 @@ app:
         rate: 0.02
       - maxAge: 2147483647
         rate: 0.04
-
-server:
-  port: 8080

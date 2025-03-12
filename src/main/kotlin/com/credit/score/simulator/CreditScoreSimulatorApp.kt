@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 
+/**
+ * Classe principal. Comece executando por aqui para disponibilizar os endpoints
+ */
 @SpringBootApplication(scanBasePackages = ["com.credit.score.simulator"])
 @EnableConfigurationProperties(RateConfig::class)
 class CreditScoreSimulatorApp

@@ -1,4 +1,4 @@
-package com.credit.score.simulator.calculator
+package com.credit.score.simulator.actor
 
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
@@ -7,10 +7,10 @@ import java.math.BigDecimal
 
 class InstallmentRateCalculatorTest {
 
+    private val target = InstallmentRateCalculatorImpl()
+
     @Test
     fun calculateInstallmentRate() {
-        val target = InstallmentRateCalculatorImpl()
-
         val loanValue = BigDecimal("10000")
         val monthlyRate = BigDecimal("0.004166667")
         val paymentTermInMonths = 60
@@ -21,8 +21,6 @@ class InstallmentRateCalculatorTest {
 
     @Test
     fun calculateInstallmentRateLongTerm() {
-        val target = InstallmentRateCalculatorImpl()
-
         val loanValue = BigDecimal("55555")
         val monthlyRate = BigDecimal("0.0016666667")
         val paymentTermInMonths = 320
@@ -33,8 +31,6 @@ class InstallmentRateCalculatorTest {
 
     @Test
     fun calculateInstallmentRateShortTerm() {
-        val target = InstallmentRateCalculatorImpl()
-
         val loanValue = BigDecimal("100000")
         val monthlyRate = BigDecimal("0.033333333")
         val paymentTermInMonths = 10
@@ -45,8 +41,6 @@ class InstallmentRateCalculatorTest {
 
     @Test
     fun calculateInstallmentRateHighLoanValue() {
-        val target = InstallmentRateCalculatorImpl()
-
         val loanValue = BigDecimal("9999999.99")
         val monthlyRate = BigDecimal("0.0025")
         val paymentTermInMonths = 222
@@ -57,8 +51,6 @@ class InstallmentRateCalculatorTest {
 
     @Test
     fun blockNegativeLoan() {
-        val target = InstallmentRateCalculatorImpl()
-
         val loanValue = BigDecimal("-1")
         val monthlyRate = BigDecimal("0.0025")
         val paymentTermInMonths = 222
@@ -72,8 +64,6 @@ class InstallmentRateCalculatorTest {
 
     @Test
     fun blockNegativeRate() {
-        val target = InstallmentRateCalculatorImpl()
-
         val loanValue = BigDecimal("10")
         val monthlyRate = BigDecimal("-2")
         val paymentTermInMonths = 222
@@ -87,8 +77,6 @@ class InstallmentRateCalculatorTest {
 
     @Test
     fun blockNegativeMonths() {
-        val target = InstallmentRateCalculatorImpl()
-
         val loanValue = BigDecimal("21")
         val monthlyRate = BigDecimal("0.0025")
         val paymentTermInMonths = -1
@@ -99,5 +87,4 @@ class InstallmentRateCalculatorTest {
             assertThat(e.message).isEqualTo("Quantidade de meses do empréstimo precisa ser positivo")
         }
     }
-
 }

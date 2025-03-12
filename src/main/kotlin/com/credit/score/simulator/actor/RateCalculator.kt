@@ -1,10 +1,9 @@
-package com.credit.score.simulator.calculator
+package com.credit.score.simulator.actor
 
 import com.credit.score.simulator.config.RateConfig
 import com.credit.score.simulator.model.Rate
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration
-import org.springframework.validation.annotation.Validated
 import java.math.BigDecimal
 import java.math.RoundingMode.HALF_UP
 import java.time.LocalDate
@@ -15,6 +14,9 @@ interface RateCalculator {
     suspend fun calculateYearlyRate(birthDate: LocalDate): Rate
 }
 
+/**
+ * Calcula a taxa anual e mensal correta a ser aplicada, de acordo com o ano de nascimento informado
+ */
 @Configuration
 @ConfigurationProperties(prefix = "app.rates")
 class RateCalculatorImpl(

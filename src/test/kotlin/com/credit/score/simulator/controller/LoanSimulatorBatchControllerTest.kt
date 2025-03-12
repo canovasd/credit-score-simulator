@@ -23,7 +23,7 @@ class LoanSimulatorBatchControllerTest {
     private lateinit var webTestClient: WebTestClient
 
     @Test
-    fun testBatchSimulation() {
+    fun batchSimulation() {
         val requests = listOf(
             LoanSimulationParameter(
                 loanValue = BigDecimal("10000"),
@@ -48,13 +48,16 @@ class LoanSimulatorBatchControllerTest {
 
         assertThat(result.responseBody?.decodeToString()).isEqualTo(
             "[" +
-                    "{\"loanSimulation\"" +
-                    ":{\"installmentRate\":188.71," +
+                    "{" +
+                    "\"loanSimulation\":{\"installmentRate\":188.71," +
                     "\"finalValue\":11322.60," +
                     "\"totalInterest\":1322.60," +
-                    "\"yearlyRate\":0.05}" +
-                    "}," +
-                    "{\"errorMessage\":\"Informe um valor de empréstimo maior ou igual 1\"}" +
+                    "\"yearlyRate\":0.05," +
+                    "\"originalValue\":10000," +
+                    "\"paymentTermInMonths\":60}}," +
+                    "{\"errorMessage\":" +
+                    "\"Informe um valor de empréstimo maior ou igual 1\"" +
+                    "}" +
                     "]"
         )
     }
