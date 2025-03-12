@@ -1,5 +1,7 @@
-package com.credit.score.simulator.service.calculator
+package com.credit.score.simulator.calculator
 
+import com.credit.score.simulator.config.RateConfig
+import com.credit.score.simulator.config.RateConfig.AgeRateBracket
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -11,12 +13,23 @@ import java.time.LocalDate
 
 class RateCalculatorTest {
 
+    private val rateConfig = RateConfig(
+        listOf(
+            AgeRateBracket(25, BigDecimal("0.05")),
+            AgeRateBracket(40, BigDecimal("0.03")),
+            AgeRateBracket(60, BigDecimal("0.02")),
+            AgeRateBracket(2147483647, BigDecimal("0.04")),
+        )
+    )
+
     @Test
     fun calculateRateTwentyYears() {
         val ageCalculator = mock<AgeCalculator>()
-        whenever(runBlocking { ageCalculator.calculateAge(any(), any()) }).thenReturn(20)
+        whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(20)
 
-        val target = RateCalculatorImpl(ageCalculator)
+        val a = BigDecimal("1")
+
+        val target = RateCalculatorImpl(ageCalculator, rateConfig)
         val result = runBlocking { target.calculateYearlyRate(LocalDate.of(2004, 1, 1)) }
 
         assertThat(result.yearlyRate).isEqualTo(BigDecimal("0.05"))
@@ -26,9 +39,9 @@ class RateCalculatorTest {
     @Test
     fun calculateRateTwentyFiveYears() {
         val ageCalculator = mock<AgeCalculator>()
-        whenever(runBlocking { ageCalculator.calculateAge(any(), any()) }).thenReturn(25)
+        whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(25)
 
-        val target = RateCalculatorImpl(ageCalculator)
+        val target = RateCalculatorImpl(ageCalculator, rateConfig)
         val result = runBlocking { target.calculateYearlyRate(LocalDate.of(2000, 1, 1)) }
 
         assertThat(result.yearlyRate).isEqualTo(BigDecimal("0.05"))
@@ -38,9 +51,9 @@ class RateCalculatorTest {
     @Test
     fun calculateRateTwentySixYears() {
         val ageCalculator = mock<AgeCalculator>()
-        whenever(runBlocking { ageCalculator.calculateAge(any(), any()) }).thenReturn(26)
+        whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(26)
 
-        val target = RateCalculatorImpl(ageCalculator)
+        val target = RateCalculatorImpl(ageCalculator, rateConfig)
         val result = runBlocking { target.calculateYearlyRate(LocalDate.of(1999, 1, 1)) }
 
         assertThat(result.yearlyRate).isEqualTo(BigDecimal("0.03"))
@@ -48,11 +61,11 @@ class RateCalculatorTest {
     }
 
     @Test
-    fun calculateRateFourtyYears() {
+    fun calculateRateFortyYears() {
         val ageCalculator = mock<AgeCalculator>()
-        whenever(runBlocking { ageCalculator.calculateAge(any(), any()) }).thenReturn(40)
+        whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(40)
 
-        val target = RateCalculatorImpl(ageCalculator)
+        val target = RateCalculatorImpl(ageCalculator, rateConfig)
         val result = runBlocking { target.calculateYearlyRate(LocalDate.of(1985, 1, 1)) }
 
         assertThat(result.yearlyRate).isEqualTo(BigDecimal("0.03"))
@@ -60,11 +73,11 @@ class RateCalculatorTest {
     }
 
     @Test
-    fun calculateRateFourtyOneYears() {
+    fun calculateRateFortyOneYears() {
         val ageCalculator = mock<AgeCalculator>()
-        whenever(runBlocking { ageCalculator.calculateAge(any(), any()) }).thenReturn(41)
+        whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(41)
 
-        val target = RateCalculatorImpl(ageCalculator)
+        val target = RateCalculatorImpl(ageCalculator, rateConfig)
         val result = runBlocking { target.calculateYearlyRate(LocalDate.of(1984, 1, 1)) }
 
         assertThat(result.yearlyRate).isEqualTo(BigDecimal("0.02"))
@@ -74,9 +87,9 @@ class RateCalculatorTest {
     @Test
     fun calculateRateSixtyYears() {
         val ageCalculator = mock<AgeCalculator>()
-        whenever(runBlocking { ageCalculator.calculateAge(any(), any()) }).thenReturn(60)
+        whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(60)
 
-        val target = RateCalculatorImpl(ageCalculator)
+        val target = RateCalculatorImpl(ageCalculator, rateConfig)
         val result = runBlocking { target.calculateYearlyRate(LocalDate.of(1965, 1, 1)) }
 
         assertThat(result.yearlyRate).isEqualTo(BigDecimal("0.02"))
@@ -86,9 +99,9 @@ class RateCalculatorTest {
     @Test
     fun calculateRateSixtyOneYears() {
         val ageCalculator = mock<AgeCalculator>()
-        whenever(runBlocking { ageCalculator.calculateAge(any(), any()) }).thenReturn(61)
+        whenever(runBlocking { ageCalculator.calculateAge(any()) }).thenReturn(61)
 
-        val target = RateCalculatorImpl(ageCalculator)
+        val target = RateCalculatorImpl(ageCalculator, rateConfig)
         val result = runBlocking { target.calculateYearlyRate(LocalDate.of(1964, 1, 1)) }
 
         assertThat(result.yearlyRate).isEqualTo(BigDecimal("0.04"))

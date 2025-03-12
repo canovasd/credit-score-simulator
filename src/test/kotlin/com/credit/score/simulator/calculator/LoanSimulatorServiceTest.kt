@@ -3,10 +3,10 @@ package com.credit.score.simulator.service
 import com.credit.score.simulator.model.LoanSimulationParameter
 import com.credit.score.simulator.model.LoanSimulationResult
 import com.credit.score.simulator.model.Rate
-import com.credit.score.simulator.service.calculator.InstallmentRateCalculator
-import com.credit.score.simulator.service.calculator.RateCalculator
-import com.credit.score.simulator.service.validator.LoanSimulationParameterException
-import com.credit.score.simulator.service.validator.LoanSimulationParameterValidator
+import com.credit.score.simulator.calculator.InstallmentRateCalculator
+import com.credit.score.simulator.calculator.RateCalculator
+import com.credit.score.simulator.validator.LoanSimulationParameterException
+import com.credit.score.simulator.validator.LoanSimulationParameterValidator
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -28,7 +28,7 @@ class LoanSimulatorServiceTest {
             Rate(yearlyRate = BigDecimal("0.03"), monthlyRate = BigDecimal("0025"))
         )
         whenever(runBlocking {
-            installmentRateCalculator.calculateScore(
+            installmentRateCalculator.calculateInstallmentRate(
                 any(),
                 any(),
                 any()
@@ -62,7 +62,7 @@ class LoanSimulatorServiceTest {
         val paramValidator = mock<LoanSimulationParameterValidator>()
         val errorMsg = "Data de nascimento não pode ser após o dia atual"
 
-        whenever(runBlocking { paramValidator.validate(any(), any()) }).thenThrow(
+        whenever(runBlocking { paramValidator.validate(any()) }).thenThrow(
             LoanSimulationParameterException(
                 errorMsg
             )

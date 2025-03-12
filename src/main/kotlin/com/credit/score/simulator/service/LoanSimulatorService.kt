@@ -5,10 +5,10 @@ import com.credit.score.simulator.model.LoanSimulationParameter
 import com.credit.score.simulator.model.LoanSimulationResult
 import com.credit.score.simulator.model.LoanSimulationResult.LoanSimulationFail
 import com.credit.score.simulator.model.LoanSimulationResult.LoanSimulationSuccess
-import com.credit.score.simulator.service.calculator.InstallmentRateCalculator
-import com.credit.score.simulator.service.calculator.RateCalculator
-import com.credit.score.simulator.service.validator.LoanSimulationParameterException
-import com.credit.score.simulator.service.validator.LoanSimulationParameterValidator
+import com.credit.score.simulator.calculator.InstallmentRateCalculator
+import com.credit.score.simulator.calculator.RateCalculator
+import com.credit.score.simulator.validator.LoanSimulationParameterException
+import com.credit.score.simulator.validator.LoanSimulationParameterValidator
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 
@@ -31,7 +31,7 @@ class LoanSimulatorService(
 
         val rate = rateCalculator.calculateYearlyRate(param.birthDate)
 
-        val installmentRate = installmentRateCalculator.calculateScore(
+        val installmentRate = installmentRateCalculator.calculateInstallmentRate(
             param.loanValue,
             rate.monthlyRate,
             param.paymentTermInMonths

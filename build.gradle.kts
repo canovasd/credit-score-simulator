@@ -20,6 +20,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.8.0")
+
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
