@@ -99,6 +99,23 @@ POST http://localhost:8080/api/loans/simulate
 }
 ```
 
+### 📍 Parâmetros alternativos no Body
+**email**: Se você informar, o sistema simula utilização de fila (mockada em memória) para demonstrar envio assíncrono
+**inputCurrency** e **outputCurrency**: Informe **BRL**, **USD**,  **EUR**, **JPY** ou **CNY** para obter uma conversão de moeda na entrada do dado se informar inputCurreny, e na exibição da resposta ao informar outputCurrency
+O default para ambos os campos é BRL
+
+Exemplo de Request com todos os campos não obrigatórios:
+```json
+{
+  "loanValue":10000,
+  "birthDate": "2010-01-19",
+  "loanDurationMonths": 2,
+  "email": "marciocanovas@gmail.com",
+  "inputCurrency": "BRL",
+  "outputCurrency": "BRL"
+}
+```
+
 ### 📍 Simulação de Empréstimo em Batch
 
 Esse endpoint permite calcular um grande número de simulações em paralelo. Testado com **10 mil simulações em menos de 2 segundos**.
@@ -206,7 +223,7 @@ POST http://localhost:8080/api/loans/variable-rate/simulate
     },
 …
 }
-
+```
 
 ---
 
