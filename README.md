@@ -25,7 +25,7 @@ kotlin/com/finance/loan/simulator/LoanFlowSimulatorApp.kt
 
 A aplicação responderá na porta `8080`. Um portal listando os endpoints disponíveis e suas funcionalidades estará acessível em:
 
-🔗 **[Swagger UI](http://localhost:8080/swagger-ui/index.html)**
+🔗 **[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)**
 
 ### Alternativamente, via Docker:
 
@@ -124,6 +124,90 @@ POST http://localhost:8080/api/loans/simulate-batch
 ]
 ```
 
+**Exemplo de Response:**
+```json
+[
+  {
+    "loanSimulation": {
+      "monthlyPayment": 186.86,
+      "finalValue": 16817.4,
+      "totalInterest": 2817.4,
+      "yearlyRate": 0.05,
+      "originalValue": 14000,
+      "loanDurationMonths": 90,
+      "currency": "BRL"
+    }
+  },
+  {
+    "loanSimulation": {
+      "monthlyPayment": 597.49,
+      "finalValue": 537741,
+      "totalInterest": 397741,
+      "yearlyRate": 0.05,
+      "originalValue": 140000,
+      "loanDurationMonths": 900,
+      "currency": "BRL"
+    }
+  },
+  {
+    "loanSimulation": {
+      "monthlyPayment": 247868.48,
+      "finalValue": 1239342.4,
+      "totalInterest": 15342.4,
+      "yearlyRate": 0.05,
+      "originalValue": 1224000,
+      "loanDurationMonths": 5,
+      "currency": "BRL"
+    }
+  }
+]
+```
+### 📍 Simulação de Empréstimo com Renda Variável
+
+Simula um empréstimo que possui uma taxa fixa e outra variável associada a um índice
+Exemplo: Financiamento de imóvel com taxa fixa de 4% ao ano + variação do IPCA
+Apresenta a evolução estimada do valor da parcela ao longo do tempo, utilizando números aproximados para variação do índice escolhido
+Índices simulados: CDI, TR e IPCA
+
+**Endpoint:**
+```http
+POST http://localhost:8080/api/loans/variable-rate/simulate
+```
+
+**Exemplo de Request:**
+```json
+{
+  "loanValue":200000,
+  "birthDate": "2010-01-19",
+  "loanDurationMonths": 120,
+  "fixPartRate": 0.003333,
+  "financialIndex": "IPCA"
+}
+```
+**Exemplo de Response:**
+```json
+{
+  "finalValue": 396119.83,
+  "totalInterest": 196119.83,
+  "originalValue": 200000,
+  "loanDurationMonths": 120,
+  "evolution": [
+    {
+      "index": 1,
+      "monthlyPayment": 2397.02,
+      "fixPartRate": 0.003333,
+      "variablePartRate": 0.0031
+    },
+    {
+      "index": 2,
+      "monthlyPayment": 2405.78,
+      "fixPartRate": 0.003333,
+      "variablePartRate": 0.00310003
+    },
+…
+}
+
+
 ---
 
 ## 🏗 Arquitetura
@@ -132,34 +216,32 @@ Este projeto segue uma **arquitetura modular e orientada a responsabilidades**, 
 
 📂 **Estrutura de Pacotes**:
 
-- **`actor`** – Contém a lógica de negócio central
-- **`config`** – Configurações técnicas do sistema
-- **`controller`** – Implementação dos endpoints da API REST
-- **`model`** – Classes de domínio e DTOs
-- **`queue`** – Comunicação assíncrona mockada
-- **`service`** – Orquestração dos actors
-- **`validator`** – Validação de entrada de dados
+- **`actor`** – Contém a lógica de negócio central. Os "actors" são responsáveis por processar cálculos e regras diretamente relacionadas à simulação de empréstimos. Esse design permite que a lógica de domínio fique desacoplada da camada de entrada (APIs) e infraestrutura
+- **`config`** – Inclui configurações técnicas, como clocks para controle de tempo, configurações de API REST, e ajustes gerais do framework (Spring Boot, Swagger, etc)
+- **`controller`** – Implementa os endpoints da API REST. Essa camada apenas recebe as requisições HTTP, valida os dados de entrada e repassa para os serviços apropriados
+- **`model`** – Define as classes de domínio e DTOs utilizados no sistema. Esse pacote contém as estruturas básicas dos objetos que interagem dentro do simulador
+- **`queue`** – Responsável pela comunicação assíncrona dentro do sistema. Contém classes que mockam integração com filas, permitindo que operações pesadas sejam executadas em background.
+- **`service`** – Camada intermediária que orquestra os actors. Os services atuam como ponte entre os controllers e as regras de negócio, aplicando validações, chamadas a múltiplos actors e agregação de resultados.
+- **`validator`** – Contém classes especializadas em validação de entrada, garantindo que os dados estejam corretos antes de serem processados pelos serviços e actors.
 
 ### 🛠 Conceitos aplicados
 
-- **Execução paralela** – Utiliza **Kotlin Coroutines** para performance otimizada
-- **Testes de stress** – Suporta **10 mil requisições simultâneas**
-- **Internacionalização** – Mensagens de erro configuradas no `messages.properties`
+- **Execução paralela** – Utilizando as Coroutines do Kotlin, foi possível realizar cálculos financeiros compatíveis com processamento paralelo e que respondem bem em cenários de alta demanda
+- **Stress test** – Os endpoints de simulação passam por teste de stress com 10 mil chamadas e garantia que roda em até 15 segundos. O endpoint otimizado para batch passa pelo mesmo cenário e o teste garante performance de até 2 segundos
+- **Clock** – Para operações de tempo, como cálculo de idade, a implementação padrão recupera o horário do servidor, mas é possível cravar um “relógio parado” em situações de teste
+- **Internacionalização** – As mensagens de erro, no lugar de cravadas no código, são chamadas através de identificadores.
+
+- O arquivo “messages.properties” no momento apresenta apenas a versão em português, mas seria possível deixar esse arquivo em inglês, criar um arquivo messages_pt_BR.properties para configuração local brasileira e e quantas mais fossem necessárias
 
 ### 📌 Principais Bibliotecas Utilizadas
 
-- **Spring Boot** – Injeção de dependências e API REST
+- **Spring Boot** – Disponibilização da aplicação, injeção de dependências e API REST
 - **Swagger** – Documentação viva
-- **Ktlint** – Padronização de código Kotlin
+- **Ktlint** – Linter para padronização de código Kotlin
 - **JUnit & Mockito-Kotlin** – Testes unitários e de integração
 - **Jackson** – Serialização JSON
 - **Kotlin Coroutines** – Execução assíncrona eficiente
-- **BigDecimal** – Cálculos financeiros precisos
-
----
-
-## 📜 Licença
-
-Este projeto é de uso livre e pode ser utilizado e modificado conforme necessidade. 🚀
+- **Springboot Annotations** - recuperação de propriedades do sistema
+- **BigDecimal** – Para operação com ponto flutuante e cálculos financeiros precisos
 
 ---
