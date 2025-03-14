@@ -1,6 +1,6 @@
 package com.finance.loan.simulator.actor
 
-import com.finance.loan.simulator.Queue.QueueSender
+import com.finance.loan.simulator.queue.QueueSender
 import com.finance.loan.simulator.model.LoanSimulation
 import com.finance.loan.simulator.model.SimulationToSend
 import org.springframework.stereotype.Component

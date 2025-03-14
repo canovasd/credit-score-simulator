@@ -1,5 +1,6 @@
 package com.finance.loan.simulator.validator
 
+import com.finance.loan.simulator.actor.AgeCalculatorImpl
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
@@ -24,6 +25,8 @@ class LoanSimulatorParameterValidatorTest {
 
     private val messageSource = mock<MessageSource>()
 
+    private val ageCalculator = AgeCalculatorImpl(fixedClock)
+
     @Test
     fun validParameter() {
         val validParam = com.finance.loan.simulator.model.LoanScenario(
@@ -31,8 +34,7 @@ class LoanSimulatorParameterValidatorTest {
             birthDate = LocalDate.of(2000, 3, 3),
             loanDurationMonths = 12
         )
-        val target =
-            com.finance.loan.simulator.validator.LoanSimulationParameterValidatorImpl(fixedClock, messageSource)
+        val target = LoanSimulationParameterValidatorImpl(fixedClock, messageSource, ageCalculator)
 
         try {
             runBlocking { target.validate(validParam) }
@@ -57,8 +59,7 @@ class LoanSimulatorParameterValidatorTest {
             )
         ).thenReturn(msg)
 
-        val target =
-            com.finance.loan.simulator.validator.LoanSimulationParameterValidatorImpl(fixedClock, messageSource)
+        val target = LoanSimulationParameterValidatorImpl(fixedClock, messageSource, ageCalculator)
 
         try {
             runBlocking { target.validate(param) }
@@ -84,8 +85,7 @@ class LoanSimulatorParameterValidatorTest {
             )
         ).thenReturn(msg)
 
-        val target =
-            com.finance.loan.simulator.validator.LoanSimulationParameterValidatorImpl(fixedClock, messageSource)
+        val target = LoanSimulationParameterValidatorImpl(fixedClock, messageSource, ageCalculator)
 
         try {
             runBlocking { target.validate(param) }
@@ -110,8 +110,7 @@ class LoanSimulatorParameterValidatorTest {
                 Locale.getDefault()
             )
         ).thenReturn(msg)
-        val target =
-            com.finance.loan.simulator.validator.LoanSimulationParameterValidatorImpl(fixedClock, messageSource)
+        val target = LoanSimulationParameterValidatorImpl(fixedClock, messageSource, ageCalculator)
 
         try {
             runBlocking { target.validate(parameter = param) }
@@ -137,8 +136,7 @@ class LoanSimulatorParameterValidatorTest {
             )
         ).thenReturn(msg)
 
-        val target =
-            com.finance.loan.simulator.validator.LoanSimulationParameterValidatorImpl(fixedClock, messageSource)
+        val target = LoanSimulationParameterValidatorImpl(fixedClock, messageSource, ageCalculator)
 
         try {
             runBlocking { target.validate(validParam) }
@@ -164,8 +162,85 @@ class LoanSimulatorParameterValidatorTest {
             )
         ).thenReturn(msg)
 
-        val target =
-            com.finance.loan.simulator.validator.LoanSimulationParameterValidatorImpl(fixedClock, messageSource)
+        val target = LoanSimulationParameterValidatorImpl(fixedClock, messageSource, ageCalculator)
+
+        try {
+            runBlocking { target.validate(validParam) }
+            Assertions.fail("Should throw exception")
+        } catch (e: Exception) {
+            assertThat(e.message).isEqualTo(msg)
+        }
+    }
+
+    @Test
+    fun blockAgeTooYoung() {
+        val validParam = com.finance.loan.simulator.model.LoanScenario(
+            loanValue = BigDecimal("1000"),
+            birthDate = LocalDate.of(2015, 3, 3),
+            loanDurationMonths = 5
+        )
+        val msg = "Apenas maiores de 18 anos podem receber empréstimos"
+        whenever(
+            messageSource.getMessage(
+                "too.young.to.receive.loan",
+                null,
+                Locale.getDefault()
+            )
+        ).thenReturn(msg)
+
+        val target = LoanSimulationParameterValidatorImpl(fixedClock, messageSource, ageCalculator)
+
+        try {
+            runBlocking { target.validate(validParam) }
+            Assertions.fail("Should throw exception")
+        } catch (e: Exception) {
+            assertThat(e.message).isEqualTo(msg)
+        }
+    }
+
+    @Test
+    fun blockValueTooHigh() {
+        val validParam = com.finance.loan.simulator.model.LoanScenario(
+            loanValue = BigDecimal("10000000000"),
+            birthDate = LocalDate.of(2004, 3, 3),
+            loanDurationMonths = 5
+        )
+        val msg = "Valor escolhido para a simulação de empréstimo muito alto"
+        whenever(
+            messageSource.getMessage(
+                "loan.value.too.high",
+                null,
+                Locale.getDefault()
+            )
+        ).thenReturn(msg)
+
+        val target = LoanSimulationParameterValidatorImpl(fixedClock, messageSource, ageCalculator)
+
+        try {
+            runBlocking { target.validate(validParam) }
+            Assertions.fail("Should throw exception")
+        } catch (e: Exception) {
+            assertThat(e.message).isEqualTo(msg)
+        }
+    }
+
+    @Test
+    fun loanDurationTooLong() {
+        val validParam = com.finance.loan.simulator.model.LoanScenario(
+            loanValue = BigDecimal("2000"),
+            birthDate = LocalDate.of(2004, 3, 3),
+            loanDurationMonths = 1501
+        )
+        val msg = "Período escolhido para o empréstimo muito longo"
+        whenever(
+            messageSource.getMessage(
+                "loan.duration.too.long",
+                null,
+                Locale.getDefault()
+            )
+        ).thenReturn(msg)
+
+        val target = LoanSimulationParameterValidatorImpl(fixedClock, messageSource, ageCalculator)
 
         try {
             runBlocking { target.validate(validParam) }

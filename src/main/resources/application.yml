@@ -1,6 +1,6 @@
 spring:
   application:
-    name: CreditScoreSimulator
+    name: LoanFlowSimulator
   profiles:
     active: dev
   mvc:

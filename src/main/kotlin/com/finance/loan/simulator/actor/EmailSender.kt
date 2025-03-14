@@ -1,6 +1,6 @@
 package com.finance.loan.simulator.actor
 
-import com.finance.loan.simulator.Queue.QueueReader
+import com.finance.loan.simulator.queue.QueueReader
 import com.finance.loan.simulator.model.LoanSimulationResult
 import org.springframework.stereotype.Component
 import javax.annotation.PostConstruct
