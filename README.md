@@ -79,7 +79,7 @@ POST http://localhost:8080/api/loans/simulate
 ```json
 {
   "loanValue": 10000,
-  "birthDate": "2010-01-19",
+  "birthDate": "2005-01-19",
   "loanDurationMonths": 2
 }
 ```
@@ -108,7 +108,7 @@ Exemplo de Request com todos os campos não obrigatórios:
 ```json
 {
   "loanValue":10000,
-  "birthDate": "2010-01-19",
+  "birthDate": "2005-01-19",
   "loanDurationMonths": 2,
   "email": "marciocanovas@gmail.com",
   "inputCurrency": "BRL",
@@ -195,7 +195,7 @@ POST http://localhost:8080/api/loans/variable-rate/simulate
 ```json
 {
   "loanValue":200000,
-  "birthDate": "2010-01-19",
+  "birthDate": "2005-01-19",
   "loanDurationMonths": 120,
   "fixPartRate": 0.003333,
   "financialIndex": "IPCA"
