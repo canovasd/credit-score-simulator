@@ -23,8 +23,7 @@ class EmailSenderImpl(
                 val simulationToSend = queueReader.readFromQueue()
                 simulationToSend?.let {
                     println(
-                        "Simulando envio de mensagem para e-mail ${it.email} " +
-                            "com infos sobre o empréstimo ${it.loanSimulation}"
+                        "Simulando envio de mensagem para e-mail ${it.email} " + "com infos sobre o empréstimo ${it.loanSimulation}"
                     )
                 }
             }

@@ -147,7 +147,6 @@ class LoanSimulatorControllerTest {
 
     @Test
     fun blockNegativePaymentTerm() {
-        // Cenário: Prazo negativo para pagamento. Deve retornar erro.
         val requestPayload = """
             {
               "loanValue": 10000,

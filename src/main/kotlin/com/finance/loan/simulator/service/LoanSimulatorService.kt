@@ -20,11 +20,11 @@ const val MONETARY_SCALE = 2
  */
 @Component
 class LoanSimulatorService(
-    val interestRateCalculator: InterestRateCalculator,
-    val installmentRateCalculator: MonthlyPaymentCalculator,
-    val paramValidator: com.finance.loan.simulator.validator.LoanSimulationParameterValidator,
-    val notifier: ResultNotifier,
-    val currencyConverter: CurrencyConverter
+    private val interestRateCalculator: InterestRateCalculator,
+    private val installmentRateCalculator: MonthlyPaymentCalculator,
+    private val paramValidator: com.finance.loan.simulator.validator.LoanSimulationParameterValidator,
+    private val notifier: ResultNotifier,
+    private val currencyConverter: CurrencyConverter
 ) {
     suspend fun simulateLoan(param: LoanScenario): LoanSimulationResult {
         try {

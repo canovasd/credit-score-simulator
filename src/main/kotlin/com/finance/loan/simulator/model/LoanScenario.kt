@@ -13,7 +13,9 @@ import java.time.LocalDate
         "loanValue": 10000.00,
         "birthDate": "2000-01-01",
         "loanDurationMonths": 60,
-        "email": "marciocanovas@gmail.com"
+        "email": "marciocanovas@gmail.com",
+        "inputCurrency": "BRL",
+        "inputCurrency": "USD"
     }"""
 )
 data class LoanScenario(
@@ -24,9 +26,12 @@ data class LoanScenario(
     val birthDate: LocalDate,
     @Schema(example = "60", description = "Prazo em meses para pagamento")
     val loanDurationMonths: Int,
+    @Schema(example = "marciocanovas@gmail.com", description = "E-mail para receber notificações")
     val email: String? = null,
+    @Schema(example = "BRL", description = "Moeda na qual os valores estão sendo informados")
     @field:JsonProperty("inputCurrency")
     val inputCurrency: Currency = BRL,
+    @Schema(example = "BRL", description = "Moeda a ser considerada na resposta")
     @field:JsonProperty("outputCurrency")
     val outputCurrency: Currency = BRL
 )
